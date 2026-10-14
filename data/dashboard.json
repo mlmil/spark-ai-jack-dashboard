@@ -21,15 +21,15 @@
   "projects": [
     {
       "id": "voice-deepseek-time-logger",
-      "badge": "INTERNAL PROJECT • SPEAK-TO-LLM DASHBOARD BUILD",
-      "title": "Voice-First Time Logger (Speech → DeepSeek API → Master Portal)",
+      "badge": "INTERNAL PROJECT • PERSONAL LOGGER DASHBOARD BUILD",
+      "title": "Personal Time-Logger Dashboard (Functional Build → Voice Input → DeepSeek API)",
       "status": "Starts Oct 16",
-      "description": "Core Spark AI lesson: speak to LLMs instead of typing. Jack builds a mobile-friendly voice input dashboard where he dictates his work summary from Studio 1385 or Home; the DeepSeek API parses his speech into structured JSON and plugs it into this Master Dashboard.",
+      "description": "Jack first builds his own functional dashboard to log his hours (Studio 1385 vs. Remote / Home) and wire it into this Master Portal, then upgrades it with voice capture and DeepSeek API structured JSON parsing so he can speak his updates instead of typing.",
       "milestones": [
         {
           "id": "p1-m1",
-          "title": "1. Mobile & Desktop Voice Capture UI (\"Speak, Don't Type\")",
-          "detail": "Microphone speech capture on Jack's personal logger dashboard so he can speak updates from his phone or workstation",
+          "title": "1. Build Functional Time-Logging Dashboard & Wire to Master Portal",
+          "detail": "Create Jack's personal dashboard UI, make time & location logging (Studio 1385 vs. Remote / Home) fully functional, and connect its feed (data/jack-feed.json) into this Master Dashboard",
           "status": "Upcoming",
           "sampleStatus": "Completed",
           "completed": false,
@@ -37,8 +37,8 @@
         },
         {
           "id": "p1-m2",
-          "title": "2. DeepSeek API Structured JSON Parser",
-          "detail": "Wire deepseek-chat (JSON mode) to parse natural speech into strict date, location (Studio 1385 vs. Remote / Home), hours, project, and summary",
+          "title": "2. Add Mobile & Studio Voice Capture (\"Speak, Don't Type\")",
+          "detail": "Add microphone speech capture on Jack's dashboard so he can dictate session updates from his phone or Studio 1385 workstation",
           "status": "Upcoming",
           "sampleStatus": "In Progress",
           "completed": false,
@@ -46,8 +46,8 @@
         },
         {
           "id": "p1-m3",
-          "title": "3. Wire DeepSeek Output to Master Portal",
-          "detail": "Push parsed voice logs directly into data/jack-feed.json (or live endpoint) to populate this Master Dashboard",
+          "title": "3. Wire DeepSeek API Voice-to-JSON Parser",
+          "detail": "Connect deepseek-chat (JSON mode) to parse Jack's spoken updates into structured date, location, hours, project, and summary records automatically",
           "status": "Upcoming",
           "sampleStatus": "Upcoming",
           "completed": false,

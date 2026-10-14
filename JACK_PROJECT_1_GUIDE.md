@@ -7,19 +7,16 @@ Instead of filling out tedious timesheet text boxes by hand, your very first han
 
 ---
 
-## 1. How Your Pipeline Works
+## 1. Your 3-Step Build Progression
 
-1. **Speak From Your Phone or Studio 1385 Workstation:**
-   - You tap the microphone on your logger dashboard (using iOS/Android voice dictation or Web Speech API) and speak naturally:
-     > *"Hey, I worked from home today for an hour and a half testing prompt engineering and wiring the DeepSeek API into my logger."*
-     or
-     > *"I was in Studio 1385 today for four hours with Mike setting up the Mac workstation."*
-2. **DeepSeek API (`deepseek-chat` JSON Mode) Parses Your Speech:**
-   - Your spoken transcript is sent to the **DeepSeek API** (`https://api.deepseek.com/chat/completions`), which turns your voice note into a structured JSON object.
-   - Check out [`scripts/deepseek-voice-parser.mjs`](./scripts/deepseek-voice-parser.mjs) — it already has the exact system prompt and API request built for you!
-3. **Plugs Into the Master Dashboard (`data/jack-feed.json`):**
-   - Your parsed entry is added to `data/jack-feed.json` (or fetched from your hosted logger's `remoteFeedUrl`).
-   - It immediately appears on the **Master Dashboard** badged **`🎙️ Voice → DeepSeek`** and **`⏳ Logged by Jack`**, and upgrades to **`✓ Verified • M. Miller`** once Mike signs off on it.
+1. **Milestone 1 — Build the Functional Time-Logging Dashboard & Wire It In:**
+   - First, build your own clean dashboard UI and make it work end-to-end for logging your hours, work location (**`Studio 1385`** vs. **`Remote / Home`**), project, and work summary into [`data/jack-feed.json`](./data/jack-feed.json) so it populates this **Master Dashboard**.
+2. **Milestone 2 — Add Voice Capture ("Speak, Don't Type"):**
+   - Once the dashboard is functional with time logging, add microphone speech capture (from your phone or Studio 1385 workstation) so you can dictate your work summary instead of typing:
+     > *"Hey, I worked from home today for an hour and a half testing prompt engineering."*
+3. **Milestone 3 — Wire DeepSeek API (`deepseek-chat` JSON Mode) to Parse Your Speech:**
+   - Connect your spoken transcript to the **DeepSeek API** (`https://api.deepseek.com/chat/completions`), which parses your natural speech into the exact JSON structure your dashboard already uses!
+   - Check out [`scripts/deepseek-voice-parser.mjs`](./scripts/deepseek-voice-parser.mjs) — it already has the system prompt and API request ready for Milestone 3.
 
 ---
 
