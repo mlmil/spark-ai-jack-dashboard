@@ -161,9 +161,9 @@ Each logged work session in `timeLogs` follows this structure:
 
 ### 4.2 Header, Spark Plug Emblem & Actions
 - **SPARK.AI Spark Plug Emblem (`assets/spark-ai-plug.png`):**
-  1. **Brand Mark Badge:** Displayed prominently on the left side of the top header inside a dark onyx & gold-bordered crest (`#111814` with subtle `#e2ba64` drop-shadow glow so the white `SPARK.AI` line art stands out sharply).
-  2. **Subtle Hero Watermark:** Positioned on the right background of the top hero/active-track banner at low opacity (`~7%`) for a custom studio feel.
-  3. **Print / PDF Adaptation:** Automatically applies `filter: invert(1) contrast(1.4)` inside `@media print` so the white line-art emblem prints cleanly in dark ink on white paper.
+  1. **Brand Mark Badge:** Displayed on the left side of the top header inside a flat dark onyx container (`#111814` with `#1e2e25` border) with **no glow or drop-shadow** (`filter: none`), letting the heavy white line art stand out naturally.
+  2. **Subtle Hero Watermark:** Positioned on the right background of the top hero banner at low opacity (`~6%`) with no glow.
+  3. **Print / PDF Adaptation:** Applies `filter: invert(1)` inside `@media print` so the white line-art emblem prints cleanly in dark ink on white paper.
 - Dual-brand pills (`SPARK AI • STUDIO 1385` and `MOMENTUM WORK INC. • WORKFORCE PARTNER`).
 - Title (`Jack — Internship Progress & Time Portal`) and metadata subtitle (Role, Supervisor, Start Date, Schedule).
 - Action buttons:
