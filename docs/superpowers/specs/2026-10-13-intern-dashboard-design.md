@@ -28,6 +28,8 @@ The application is a zero-build static web app (`HTML5` + `CSS3` + vanilla `ES20
 ├── index.html                  # Public dashboard shell + print-only official report header/signature block
 ├── styles.css                  # Spark AI dark-matte & gold theme + @media print official report stylesheet
 ├── app.js                      # Data loader, live KPI calculator, location filter, CSV exporter, print handler
+├── assets/
+│   └── spark-ai-plug.png       # Custom SPARK.AI line-art spark plug emblem (used in header badge, hero watermark, and print report)
 ├── data/
 │   ├── dashboard.json          # Single source of truth for intern profile, timeLogs, projects, skills, notes
 │   └── dashboard-fallback.js   # Auto-synced JS window fallback so opening index.html via file:// works offline
@@ -157,7 +159,11 @@ Each logged work session in `timeLogs` follows this structure:
   - **Remote / Home Location:** Sky Blue `#38bdf8` (`🏠 Remote / Home`)
   - **Verified / Completed / Partner Badge:** Emerald `#34d399` (`MOMENTUM WORK INC. • WORKFORCE PARTNER`)
 
-### 4.2 Header & Actions
+### 4.2 Header, Spark Plug Emblem & Actions
+- **SPARK.AI Spark Plug Emblem (`assets/spark-ai-plug.png`):**
+  1. **Brand Mark Badge:** Displayed prominently on the left side of the top header inside a dark onyx & gold-bordered crest (`#111814` with subtle `#e2ba64` drop-shadow glow so the white `SPARK.AI` line art stands out sharply).
+  2. **Subtle Hero Watermark:** Positioned on the right background of the top hero/active-track banner at low opacity (`~7%`) for a custom studio feel.
+  3. **Print / PDF Adaptation:** Automatically applies `filter: invert(1) contrast(1.4)` inside `@media print` so the white line-art emblem prints cleanly in dark ink on white paper.
 - Dual-brand pills (`SPARK AI • STUDIO 1385` and `MOMENTUM WORK INC. • WORKFORCE PARTNER`).
 - Title (`Jack — Internship Progress & Time Portal`) and metadata subtitle (Role, Supervisor, Start Date, Schedule).
 - Action buttons:
