@@ -138,7 +138,9 @@
         ).length;
         const pct = milestones.length > 0 ? Math.round((doneCount / milestones.length) * 100) : 0;
         const barWidth = pct === 0 ? 6 : pct;
-        const badgeClass = idx === 0 ? 'spark-badge-gold' : 'spark-badge-sky';
+        const badgeColors = ['spark-badge-purple', 'spark-badge-gold', 'spark-badge-emerald', 'spark-badge-sky'];
+        const badgeClass = badgeColors[idx % badgeColors.length];
+        const headerRightBadge = pct > 0 ? `${pct}% Complete` : (proj.status || 'Upcoming');
 
         const milestonesHtml = milestones
           .map((ms, mIdx) => {
@@ -166,7 +168,7 @@
                 <span class="${badgeClass}" style="font-size:10px;padding:2px 8px;">${escapeHtml(proj.badge || 'ACTIVE TRACK')}</span>
                 <h2 class="panel-title" style="margin-top:6px;">${escapeHtml(proj.title)}</h2>
               </div>
-              <span class="spark-badge-emerald">${pct > 0 ? `${pct}% Complete` : 'Starts Oct 16'}</span>
+              <span class="spark-badge-emerald">${escapeHtml(headerRightBadge)}</span>
             </div>
             <p style="font-size:12.5px;color:#9ca8a1;margin:0 0 8px 0;">${escapeHtml(proj.description)}</p>
             <div class="progress-bar-track">

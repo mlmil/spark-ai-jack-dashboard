@@ -13,7 +13,11 @@ Rules:
    - "Remote / Home" (if he mentions working from home, remote, on his phone at home, etc.)
 2. "hours" MUST be a positive number (e.g., 1.5, 3, 4.0). Convert phrases like "an hour and a half" to 1.5.
 3. "date" MUST be in YYYY-MM-DD format (use the provided referenceDate if he says "today").
-4. "project" should be a concise title matching his active Spark AI work (default to "Voice-First Time Logger (Speech → DeepSeek API → Master Portal)" or "Studio Onboarding & AI Tooling Foundations").
+4. "project" should match one of Jack's active Spark AI projects:
+   - "YCE Inc. — On-Premise LLM Mac Mini Deployment & Training"
+   - "Right at Home Healthcare — Phase 2 Admin AI & Marketing Enablement"
+   - "Precision Automotive — AI-Powered Website Build"
+   - "Voice-First Time Logger (Speech → DeepSeek API → Master Portal)"
 5. "summary" MUST be a clean, professional 1-2 sentence summary suitable for his workforce development coordinator at Momentum Work Inc.
 
 Return ONLY valid JSON with keys:

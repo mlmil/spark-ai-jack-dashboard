@@ -23,7 +23,13 @@ test('dashboard.json and jack-feed.json validate cleanly with Friday Oct 16, 202
   assert.equal(data.intern.name, 'Jack');
   assert.equal(data.intern.startDate, '2026-10-16');
   assert.equal(data.intern.partnerOrganization, 'Momentum Work Inc.');
-  assert.equal(data.projects[0].id, 'voice-deepseek-time-logger');
+  const projectIds = data.projects.map((p) => p.id);
+  assert.deepEqual(projectIds, [
+    'voice-deepseek-time-logger',
+    'yce-inc-mac-mini-llm',
+    'right-at-home-phase-2',
+    'precision-automotive-ai-website'
+  ]);
 });
 
 test('mergeTimeLogs and computeMetrics handle launch state and sample wired state accurately', () => {
