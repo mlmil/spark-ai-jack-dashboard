@@ -100,3 +100,16 @@ test('index.html, styles.css, and app.js contain required Spark AI & Momentum Wo
   assert.match(js, /Remote \/ Home/);
   assert.match(js, /Voice → DeepSeek/);
 });
+
+test('JACK_PROJECT_1_GUIDE.md, .ai workspace files, and README document the Voice -> DeepSeek -> Master Portal workflow', () => {
+  assert.equal(fs.existsSync(path.join(rootDir, 'JACK_PROJECT_1_GUIDE.md')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, '.ai/AGENTS.md')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, '.ai/PROJECT_CONTEXT.md')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, '.ai/AI_WORKLOG.md')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, 'README.md')), true);
+
+  const guide = fs.readFileSync(path.join(rootDir, 'JACK_PROJECT_1_GUIDE.md'), 'utf8');
+  assert.match(guide, /deepseek-chat/);
+  assert.match(guide, /Studio 1385/);
+  assert.match(guide, /Remote \/ Home/);
+});
