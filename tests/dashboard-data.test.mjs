@@ -78,3 +78,25 @@ test('deepseek-voice-parser builds deepseek-chat JSON payload and normalizes spo
   assert.equal(entry.verifiedBy, 'Logged by Jack');
   assert.equal(entry.rawTranscript, transcript);
 });
+
+test('index.html, styles.css, and app.js contain required Spark AI & Momentum Work Inc. hooks, no-glow emblem rules, and DeepSeek voice pipeline', () => {
+  const html = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+  const css = fs.readFileSync(path.join(rootDir, 'styles.css'), 'utf8');
+  const js = fs.readFileSync(path.join(rootDir, 'app.js'), 'utf8');
+
+  assert.match(html, /assets\/spark-ai-plug\.png/);
+  assert.match(html, /MOMENTUM WORK INC\./i);
+  assert.match(html, /id="kpi-total-hours"/);
+  assert.match(html, /id="timesheet-body"/);
+  assert.match(html, /id="print-report-sheet"/);
+
+  // Verify no glow on spark plug crest image and @media print exists
+  assert.match(css, /\.spark-plug-crest\s+img\s*\{[^}]*filter:\s*none/s);
+  assert.match(css, /@media\s+print/);
+
+  // Verify CSV export, location filter, and DeepSeek voice badges in app.js
+  assert.match(js, /exportTimesheetCsv/);
+  assert.match(js, /Studio 1385/);
+  assert.match(js, /Remote \/ Home/);
+  assert.match(js, /Voice → DeepSeek/);
+});

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jack — Master Internship Progress & Time Portal | Spark AI × Momentum Work Inc.</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-container">
+    <!-- Mode Banner (lets viewers toggle between Live Launch State and Sample Wired Preview before Friday's first shift) -->
+    <div class="mode-bar no-print" id="mode-bar">
+      <div class="mode-bar-left">
+        <span class="mode-dot" id="mode-dot"></span>
+        <span id="mode-status-text">Viewing Live Portal State — Internship starts Friday, Oct 16, 2026 at Studio 1385</span>
+      </div>
+      <div class="mode-tabs">
+        <button type="button" class="mode-tab active" id="btn-mode-live" onclick="window.setDashboardMode('live')">
+          Live Portal State
+        </button>
+        <button type="button" class="mode-tab" id="btn-mode-sample" onclick="window.setDashboardMode('sample')">
+          Preview Sample Wired View (Voice → DeepSeek)
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE DASHBOARD -->
+    <main class="spark-portal no-print-hide" id="spark-portal">
+      <img src="./assets/spark-ai-plug.png" alt="" class="spark-watermark-bg" aria-hidden="true" />
+
+      <!-- TOP HEADER -->
+      <header class="spark-topbar">
+        <div class="spark-header-left">
+          <div class="spark-plug-crest" title="SPARK.AI • Studio 1385">
+            <img src="./assets/spark-ai-plug.png" alt="SPARK.AI Spark Plug Emblem" />
+          </div>
+          <div>
+            <div class="spark-brand-row">
+              <span class="spark-badge-gold">SPARK AI • STUDIO 1385 MASTER PORTAL</span>
+              <span class="spark-badge-emerald">MOMENTUM WORK INC. • WORKFORCE PARTNER</span>
+              <span class="spark-badge-purple" id="feed-status-badge">🎙️ Voice → DeepSeek API: Ready for Friday</span>
+            </div>
+            <h1 class="spark-title" id="intern-header-title">Jack — Master Internship Progress &amp; Time Portal</h1>
+            <p class="spark-subtitle" id="intern-header-subtitle">
+              Role: <strong>AI &amp; Studio Operations Intern</strong> &nbsp;|&nbsp;
+              Supervisor: <strong>Mike Miller</strong> &nbsp;|&nbsp;
+              Start Date: <strong>Fri, Oct 16, 2026</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="spark-actions no-print">
+          <button type="button" class="btn-outline" onclick="window.print()">
+            🖨️ Print / Save PDF Report
+          </button>
+          <button type="button" class="btn-amber" onclick="window.exportTimesheetCsv()">
+            ⬇ Export Timesheet CSV
+          </button>
+        </div>
+      </header>
+
+      <!-- 4 KPI SUMMARY CARDS -->
+      <section class="kpi-grid" aria-label="Internship Key Performance Indicators">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Hours Logged</div>
+          <div class="kpi-value" id="kpi-total-hours">0.0 <span>hrs total</span></div>
+          <div class="kpi-sub" id="kpi-hours-breakdown">
+            <span class="loc-pill-mini loc-studio">🏢 0.0h Studio 1385</span>
+            <span class="loc-pill-mini loc-home">🏠 0.0h Home</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">Sessions &amp; Location Split</div>
+          <div class="kpi-value" id="kpi-sessions">0 <span>sessions</span></div>
+          <div class="kpi-sub" id="kpi-sessions-sub">First session: Fri, Oct 16 at Studio 1385</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">Active Projects Progress</div>
+          <div class="kpi-value" id="kpi-progress">0% <span>overall</span></div>
+          <div class="kpi-sub" id="kpi-progress-sub">Project 1: Voice+DeepSeek Logger</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">Voice → DeepSeek Feed</div>
+          <div class="kpi-value" id="kpi-feed-count">0 <span>voice logs</span></div>
+          <div class="kpi-sub" id="kpi-feed-sub">Ready to wire on Friday, Oct 16</div>
+        </div>
+      </section>
+
+      <!-- 2-COLUMN MAIN CONTENT GRID -->
+      <div class="main-grid">
+        <!-- LEFT COLUMN: ACTIVE PROJECTS + TIMESHEET LOG -->
+        <div class="left-col">
+          <div id="projects-container"></div>
+
+          <section class="panel" style="margin-bottom: 0;">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Master Time &amp; Location Log (Voice → DeepSeek Parsed)</h2>
+                <p class="panel-caption">
+                  Tracks whether Jack worked in-person at <strong>🏢 Studio 1385</strong> or <strong>🏠 Remote / Home</strong>, plus supervisor sign-off status.
+                </p>
+              </div>
+              <div class="filter-pills no-print" id="location-filter-pills">
+                <button type="button" class="filter-pill active" data-filter="all" onclick="window.setLocationFilter('all')">
+                  All (0)
+                </button>
+                <button type="button" class="filter-pill" data-filter="Studio 1385" onclick="window.setLocationFilter('Studio 1385')">
+                  🏢 Studio 1385 (0)
+                </button>
+                <button type="button" class="filter-pill" data-filter="Remote / Home" onclick="window.setLocationFilter('Remote / Home')">
+                  🏠 Remote / Home (0)
+                </button>
+              </div>
+            </div>
+
+            <div id="timesheet-table-wrapper">
+              <table class="timesheet-table">
+                <thead>
+                  <tr>
+                    <th>Date &amp; Input</th>
+                    <th>Location</th>
+                    <th>Hours</th>
+                    <th>DeepSeek Parsed Summary</th>
+                    <th>Verification Status</th>
+                  </tr>
+                </thead>
+                <tbody id="timesheet-body"></tbody>
+              </table>
+            </div>
+
+            <div id="timesheet-empty-state" class="empty-state-box" style="display: none;">
+              <p class="empty-state-title">First Session Scheduled: Friday, October 16, 2026 (🏢 Studio 1385)</p>
+              <p class="empty-state-sub">
+                Spoken updates dictated from Jack's phone or workstation and parsed by <strong>DeepSeek API</strong> (<code>data/jack-feed.json</code>) appear here automatically as <em>⏳ Logged by Jack</em> and upgrade to <em>✓ Verified • M. Miller</em> upon supervisor sign-off.
+              </p>
+              <button type="button" class="btn-outline" style="margin-top: 10px;" onclick="window.setDashboardMode('sample')">
+                👀 Preview How Logged Voice Sessions Look
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN: VOICE -> DEEPSEEK PIPELINE, SKILLS, SUPERVISOR NOTES -->
+        <aside class="right-col">
+          <section class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Voice → DeepSeek → Master Pipeline</h2>
+              <span class="spark-badge-purple">deepseek-chat (JSON)</span>
+            </div>
+            <div class="voice-flow-step">
+              <strong style="color: #e2ba64;">1. Speak, Don't Type (Phone or Studio):</strong>
+              Jack dictates what he worked on, how long, and whether he was at <strong>Studio 1385</strong> or <strong>Home</strong>.
+            </div>
+            <div class="voice-flow-step">
+              <strong style="color: #c084fc;">2. DeepSeek API Parser:</strong>
+              Low-cost <code>deepseek-chat</code> extracts strict JSON (<code>date</code>, <code>location</code>, <code>hours</code>, <code>project</code>, <code>summary</code>).
+            </div>
+            <div class="voice-flow-step" style="margin-bottom: 0;">
+              <strong style="color: #34d399;">3. Master Dashboard Sync:</strong>
+              Plugs directly into <code>data/jack-feed.json</code> as <em>⏳ Logged by Jack</em> for Mike's verification.
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Workforce Skills &amp; Competencies</h2>
+              <span class="meta-tag">Momentum Work Inc.</span>
+            </div>
+            <div id="skills-list"></div>
+          </section>
+
+          <section class="panel" style="margin-bottom: 0;">
+            <div class="panel-header">
+              <h2 class="panel-title">Supervisor Notes &amp; Check-Ins</h2>
+              <span class="meta-tag">Mike Miller • Spark AI</span>
+            </div>
+            <div id="supervisor-notes-list"></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <!-- OFFICIAL PRINTABLE REPORT SHEET (Shown automatically on Print / Save PDF) -->
+    <section id="print-report-sheet" class="print-only">
+      <div class="print-header">
+        <div class="print-brand">
+          <img src="./assets/spark-ai-plug.png" alt="SPARK.AI" class="print-logo" />
+          <div>
+            <h2>SPARK AI — MASTER INTERN TIME &amp; PROGRESS REPORT</h2>
+            <p>Prepared for: <strong>Momentum Work Inc. Workforce Development Team</strong></p>
+          </div>
+        </div>
+        <div class="print-meta" id="print-meta-summary"></div>
+      </div>
+
+      <h3 class="print-section-title">Studio 1385 &amp; Remote Timesheet Log</h3>
+      <table class="print-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Work Location</th>
+            <th>Hours</th>
+            <th>Project Track</th>
+            <th>Activities &amp; Competencies Demonstrated</th>
+            <th>Verification Status</th>
+          </tr>
+        </thead>
+        <tbody id="print-timesheet-body"></tbody>
+      </table>
+
+      <h3 class="print-section-title">Active Projects &amp; Milestones</h3>
+      <div id="print-projects-summary"></div>
+
+      <h3 class="print-section-title">Supervisor Notes (Mike Miller)</h3>
+      <div id="print-notes-summary"></div>
+
+      <div class="print-signature-row">
+        <div><strong>Supervisor Signature:</strong> ____________________________________ (Mike Miller, Spark AI • Studio 1385)</div>
+        <div><strong>Date:</strong> ___________________</div>
+      </div>
+    </section>
+  </div>
+
+  <script src="./data/dashboard-fallback.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
