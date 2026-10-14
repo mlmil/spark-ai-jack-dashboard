@@ -1,0 +1,178 @@
+// Auto-generated from data/dashboard.json and data/jack-feed.json
+window.SPARK_INTERN_DATA = {
+  "lastUpdated": "2026-10-13",
+  "feedConfig": {
+    "status": "Ready for Friday (Project #1)",
+    "localFeedPath": "./data/jack-feed.json",
+    "remoteFeedUrl": "",
+    "llmModel": "deepseek-chat",
+    "inputMode": "Mobile & Studio Voice → DeepSeek API"
+  },
+  "intern": {
+    "name": "Jack",
+    "role": "AI & Studio Operations Intern",
+    "hostOrganization": "Spark AI",
+    "primaryLocation": "Studio 1385",
+    "supervisor": "Mike Miller",
+    "partnerOrganization": "Momentum Work Inc.",
+    "startDate": "2026-10-16",
+    "scheduleNote": "Flexible Schedule (~3–5 hrs/week • Studio 1385 & Remote/Home)",
+    "status": "Active — Starts Fri, Oct 16, 2026"
+  },
+  "projects": [
+    {
+      "id": "voice-deepseek-time-logger",
+      "badge": "PROJECT #1 • SPEAK-TO-LLM DASHBOARD BUILD",
+      "title": "Voice-First Time Logger (Speech → DeepSeek API → Master Portal)",
+      "status": "Active",
+      "description": "Core Spark AI lesson: speak to LLMs instead of typing. Jack builds a mobile-friendly voice input dashboard where he dictates his work summary from Studio 1385 or Home; the DeepSeek API parses his speech into structured JSON and plugs it into this Master Dashboard.",
+      "milestones": [
+        {
+          "id": "p1-m1",
+          "title": "1. Mobile & Desktop Voice Capture UI (\"Speak, Don't Type\")",
+          "detail": "Microphone speech capture on Jack's personal logger dashboard so he can speak updates from his phone or workstation",
+          "status": "Upcoming",
+          "sampleStatus": "Completed",
+          "completed": false,
+          "sampleCompleted": true
+        },
+        {
+          "id": "p1-m2",
+          "title": "2. DeepSeek API Structured JSON Parser",
+          "detail": "Wire deepseek-chat (JSON mode) to parse natural speech into strict date, location (Studio 1385 vs. Remote / Home), hours, project, and summary",
+          "status": "Upcoming",
+          "sampleStatus": "In Progress",
+          "completed": false,
+          "sampleCompleted": true
+        },
+        {
+          "id": "p1-m3",
+          "title": "3. Wire DeepSeek Output to Master Portal",
+          "detail": "Push parsed voice logs directly into data/jack-feed.json (or live endpoint) to populate this Master Dashboard",
+          "status": "Upcoming",
+          "sampleStatus": "Upcoming",
+          "completed": false,
+          "sampleCompleted": false
+        },
+        {
+          "id": "p1-m4",
+          "title": "4. Live Voice Check-Ins (Studio 1385 & Remote / Home)",
+          "detail": "Speak and verify real Studio 1385 and work-from-home sessions end-to-end",
+          "status": "Upcoming",
+          "sampleStatus": "Upcoming",
+          "completed": false,
+          "sampleCompleted": false
+        }
+      ]
+    },
+    {
+      "id": "studio-onboarding-ai-foundations",
+      "badge": "TRACK #2 • CORE FOUNDATIONS",
+      "title": "Studio Onboarding & AI Tooling Foundations",
+      "status": "Active",
+      "description": "Hands-on orientation at Studio 1385 covering Mac workstation setup, local language models, structured prompt engineering, and Spark AI client workflows.",
+      "milestones": [
+        {
+          "id": "t2-m1",
+          "title": "1. Mac Studio Setup & Environment",
+          "detail": "Studio 1385 workstation orientation, tools, and privacy/security guidelines",
+          "status": "Upcoming",
+          "sampleStatus": "Completed",
+          "completed": false,
+          "sampleCompleted": true
+        },
+        {
+          "id": "t2-m2",
+          "title": "2. LLM APIs, Local Models & Prompt Engineering",
+          "detail": "Structured JSON schemas, system prompts, local Apple Silicon models, and output verification",
+          "status": "Upcoming",
+          "sampleStatus": "Upcoming",
+          "completed": false,
+          "sampleCompleted": false
+        }
+      ]
+    }
+  ],
+  "timeLogs": [],
+  "sampleTimeLogs": [
+    {
+      "id": "sample-2026-10-19",
+      "date": "2026-10-19",
+      "displayDate": "Mon, Oct 19, 2026",
+      "sessionLabel": "Via Jack's Voice Logger",
+      "location": "Remote / Home",
+      "hours": 1.5,
+      "project": "Voice-First Time Logger (Speech → DeepSeek API → Master Portal)",
+      "summary": "Wired DeepSeek API JSON parser into personal voice logger and tested mobile voice-to-JSON extraction from home.",
+      "rawTranscript": "Worked from home on my phone for an hour and a half wiring the DeepSeek API parser into my logger...",
+      "inputMethod": "Voice → DeepSeek API",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack"
+    },
+    {
+      "id": "sample-2026-10-16",
+      "date": "2026-10-16",
+      "displayDate": "Fri, Oct 16, 2026",
+      "sessionLabel": "Session #1",
+      "location": "Studio 1385",
+      "hours": 4,
+      "project": "Studio Onboarding & Project #1 Kickoff",
+      "summary": "In-person onboarding at Studio 1385: Mac workstation setup, voice-first LLM workflow orientation, and started Project #1 (Voice+DeepSeek Logger).",
+      "rawTranscript": "In Studio 1385 today for four hours with Mike setting up the Mac workstation and starting my voice logger dashboard.",
+      "inputMethod": "Voice → DeepSeek API",
+      "verificationStatus": "verified",
+      "verifiedBy": "Mike Miller"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Voice-First LLM Interaction (\"Speak, Don't Type\")",
+      "category": "AI Workflow",
+      "status": "Introduced",
+      "sampleStatus": "Practicing"
+    },
+    {
+      "name": "DeepSeek API & Structured JSON Parsing",
+      "category": "AI Engineering",
+      "status": "Introduced",
+      "sampleStatus": "Practicing"
+    },
+    {
+      "name": "Dashboard UI & Data Feed Wiring",
+      "category": "Web Development",
+      "status": "Introduced",
+      "sampleStatus": "Introduced"
+    },
+    {
+      "name": "Studio 1385 & Remote Operations",
+      "category": "Workforce Readiness",
+      "status": "Introduced",
+      "sampleStatus": "Introduced"
+    }
+  ],
+  "supervisorNotes": [
+    {
+      "id": "note-sample-2026-10-16",
+      "date": "2026-10-16",
+      "displayDate": "Friday, Oct 16, 2026",
+      "context": "Studio 1385 Session (Sample Preview)",
+      "author": "Mike Miller",
+      "sampleOnly": true,
+      "text": "Great first day at Studio 1385. Introduced our core workflow philosophy—speaking to LLMs rather than typing—and started wiring DeepSeek API to parse Jack's spoken time logs into this Master Portal."
+    },
+    {
+      "id": "note-2026-10-13",
+      "date": "2026-10-13",
+      "displayDate": "Tuesday, Oct 13, 2026",
+      "context": "Onboarding Preparation",
+      "author": "Mike Miller",
+      "sampleOnly": false,
+      "text": "Welcome aboard! Jack starts Friday, Oct 16, 2026 at Studio 1385. His first project is building his own mobile-friendly voice-driven logger powered by DeepSeek API that feeds this Master Dashboard."
+    }
+  ]
+};
+window.SPARK_JACK_FEED = {
+  "feedName": "Jack's Voice → DeepSeek Logger Feed",
+  "lastSynced": "2026-10-13",
+  "entries": []
+};
