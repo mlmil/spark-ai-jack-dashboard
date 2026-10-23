@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { verifySessionToken, extractBearerToken } from './_auth-helper.js';
 
 const GITHUB_REPO = process.env.GITHUB_REPO || 'mlmil/spark-ai-jack-dashboard';
 const GITHUB_FILE_PATH = 'data/jack-feed.json';
@@ -24,6 +25,11 @@ export default async function handler(req, res) {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const authSession = verifySessionToken(extractBearerToken(req));
+  if (!authSession) {
+    return res.status(401).json({ error: 'Unauthorized. Please sign in with your Spark AI credentials.' });
   }
 
   try {

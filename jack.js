@@ -1,5 +1,6 @@
 (function () {
   const LAST_ENTRY_STORAGE_KEY = 'spark_jack_last_entry_v1';
+  const AUTH_TOKEN_STORAGE_KEY = 'spark_jack_auth_token_v1';
 
   const state = {
     feed: {
@@ -11,7 +12,129 @@
     },
     currentLoc: 'Studio 1385',
     viewportMode: window.innerWidth <= 768 ? 'mobile' : 'desktop',
-    activeMobileTab: 'log'
+    activeMobileTab: 'log',
+    authToken: ''
+  };
+
+  function getStoredAuthToken() {
+    try {
+      return (
+        localStorage.getItem(AUTH_TOKEN_STORAGE_KEY) ||
+        sessionStorage.getItem(AUTH_TOKEN_STORAGE_KEY) ||
+        ''
+      );
+    } catch (_e) {
+      return '';
+    }
+  }
+
+  function saveAuthToken(token, remember) {
+    state.authToken = token;
+    try {
+      if (remember) {
+        localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
+      } else {
+        sessionStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
+      }
+    } catch (_e) {
+      // ignore storage errors
+    }
+  }
+
+  function clearAuthToken() {
+    state.authToken = '';
+    try {
+      localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+      sessionStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+    } catch (_e) {
+      // ignore
+    }
+  }
+
+  function unlockDashboardUI() {
+    const gate = document.getElementById('auth-gate');
+    const shell = document.getElementById('jack-shell');
+    const previewBar = document.getElementById('desktop-preview-bar');
+    if (gate) gate.style.display = 'none';
+    if (shell) shell.style.display = 'block';
+    if (previewBar && window.innerWidth > 768) {
+      previewBar.style.display = 'flex';
+    }
+  }
+
+  function lockDashboardUI() {
+    const gate = document.getElementById('auth-gate');
+    const shell = document.getElementById('jack-shell');
+    const previewBar = document.getElementById('desktop-preview-bar');
+    if (gate) gate.style.display = 'flex';
+    if (shell) shell.style.display = 'none';
+    if (previewBar) previewBar.style.display = 'none';
+  }
+
+  window.togglePasswordVisibility = function () {
+    const pw = document.getElementById('auth-password');
+    const btn = document.getElementById('pw-toggle-btn');
+    if (!pw || !btn) return;
+    if (pw.type === 'password') {
+      pw.type = 'text';
+      btn.textContent = 'Hide';
+    } else {
+      pw.type = 'password';
+      btn.textContent = 'Show';
+    }
+  };
+
+  window.submitSignIn = async function () {
+    const emailEl = document.getElementById('auth-email');
+    const passEl = document.getElementById('auth-password');
+    const rememberEl = document.getElementById('auth-remember');
+    const errBox = document.getElementById('auth-error-box');
+    const btn = document.getElementById('btn-auth-submit');
+
+    const email = (emailEl?.value || '').trim();
+    const password = passEl?.value || '';
+    const remember = Boolean(rememberEl?.checked);
+
+    if (errBox) errBox.style.display = 'none';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⏳ Verifying Credentials...';
+    }
+
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.token) {
+        if (errBox) {
+          errBox.textContent = data.error || 'Invalid email or password.';
+          errBox.style.display = 'block';
+        }
+        return;
+      }
+
+      saveAuthToken(data.token, remember);
+      if (passEl) passEl.value = '';
+      unlockDashboardUI();
+    } catch (_err) {
+      if (errBox) {
+        errBox.textContent = 'Unable to reach authentication server. Please try again.';
+        errBox.style.display = 'block';
+      }
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = '🔒 Sign In to Time Logger';
+      }
+    }
+  };
+
+  window.signOutLogger = function () {
+    clearAuthToken();
+    lockDashboardUI();
   };
 
   function escapeHtml(str) {
@@ -329,9 +452,18 @@
     try {
       const res = await fetch('/api/log-session', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${state.authToken || getStoredAuthToken()}`
+        },
         body: JSON.stringify(payload)
       });
+
+      if (res.status === 401) {
+        clearAuthToken();
+        lockDashboardUI();
+        return;
+      }
 
       if (res.ok) {
         const data = await res.json();
@@ -339,28 +471,11 @@
           state.feed = data.feed;
         }
       } else {
-        throw new Error('Fallback to local entry');
+        throw new Error('Failed to log session');
       }
     } catch (_err) {
-      // Fallback if running on static preview without serverless function
-      const fallbackEntry = {
-        id: `jack-log-${Date.now()}`,
-        date,
-        displayDate: date,
-        location: state.currentLoc,
-        locationDetail,
-        hours: Number(hours.toFixed(1)),
-        project,
-        category,
-        summary,
-        inputMethod: 'Jack Personal Logger',
-        verificationStatus: 'logged_by_jack',
-        verifiedBy: 'Logged by Jack',
-        committedAt: now.toISOString(),
-        commitDisplay: stamp.full
-      };
-      state.feed.lastCommitDisplay = stamp.full;
-      state.feed.entries = [fallbackEntry, ...(state.feed.entries || [])];
+      alert('Could not reach the server to commit your session. Please check your connection and try again.');
+      return;
     } finally {
       btn.disabled = false;
       btn.textContent = origText;
@@ -401,12 +516,20 @@
     try {
       const res = await fetch('/api/deepseek', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${state.authToken || getStoredAuthToken()}`
+        },
         body: JSON.stringify({
           message,
           feedSummary: summary
         })
       });
+      if (res.status === 401) {
+        clearAuthToken();
+        lockDashboardUI();
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         box.innerHTML += `<div class="chat-msg assistant"><strong style="color:#c084fc;">DeepSeek:</strong> ${escapeHtml(data.reply)}</div>`;
@@ -422,6 +545,29 @@
   async function init() {
     const dateInput = document.getElementById('input-date');
     if (dateInput) dateInput.value = todayIso();
+
+    // Check stored session token
+    const storedToken = getStoredAuthToken();
+    if (storedToken) {
+      try {
+        const authRes = await fetch('/api/auth', {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${storedToken}` },
+          cache: 'no-store'
+        });
+        if (authRes.ok) {
+          state.authToken = storedToken;
+          unlockDashboardUI();
+        } else {
+          clearAuthToken();
+          lockDashboardUI();
+        }
+      } catch (_e) {
+        lockDashboardUI();
+      }
+    } else {
+      lockDashboardUI();
+    }
 
     try {
       // Try live Vercel GitHub API feed first, then static json fallback

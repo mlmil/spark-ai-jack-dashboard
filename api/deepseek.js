@@ -1,8 +1,15 @@
+import { verifySessionToken, extractBearerToken } from './_auth-helper.js';
+
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const authSession = verifySessionToken(extractBearerToken(req));
+  if (!authSession) {
+    return res.status(401).json({ error: 'Unauthorized. Please sign in first.' });
   }
 
   try {

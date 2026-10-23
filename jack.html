@@ -265,6 +265,53 @@
         margin-top: 12px;
       }
 
+      /* Protected Sign-In Gate */
+      .auth-gate-overlay {
+        min-height: 92vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 14px;
+      }
+      .auth-card {
+        width: 100%;
+        max-width: 400px;
+        background: #111814;
+        border: 1px solid #1e2e25;
+        border-radius: 16px;
+        padding: 26px 22px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+        position: relative;
+        overflow: hidden;
+      }
+      .auth-error {
+        display: none;
+        background: rgba(248, 113, 113, 0.14);
+        border: 1px solid #f87171;
+        color: #fca5a5;
+        padding: 9px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      .pw-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .pw-toggle-btn {
+        position: absolute;
+        right: 8px;
+        background: transparent;
+        border: none;
+        color: #9ca8a1;
+        font-size: 11.5px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 6px;
+      }
+
       /* Native Android / Mobile Phone Viewport (<= 768px) */
       @media (max-width: 768px) {
         .desktop-preview-bar {
@@ -310,8 +357,79 @@
     </style>
   </head>
   <body>
+    <!-- PROTECTED SIGN-IN GATE -->
+    <div id="auth-gate" class="auth-gate-overlay">
+      <div class="auth-card">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 18px;">
+          <div class="spark-plug-crest" title="SPARK.AI • Studio 1385">
+            <img src="./assets/spark-ai-plug.png" alt="SPARK.AI Spark Plug Emblem" />
+          </div>
+          <div>
+            <span class="spark-badge-gold" style="font-size: 9.5px;">SPARK AI • STUDIO 1385</span>
+            <h1 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 5px 0 2px 0;">
+              Jack's Time Logger Sign-In
+            </h1>
+            <p style="font-size: 12px; color: #9ca8a1; margin: 0;">
+              Protected timesheet &amp; DeepSeek portal
+            </p>
+          </div>
+        </div>
+
+        <div id="auth-error-box" class="auth-error">Invalid email or password.</div>
+
+        <form id="auth-form" onsubmit="event.preventDefault(); submitSignIn();">
+          <div class="form-group">
+            <label class="form-label" for="auth-email">Spark AI Email</label>
+            <input
+              type="email"
+              id="auth-email"
+              class="spark-input"
+              placeholder="jack@sparkai805.com"
+              autocomplete="username"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="auth-password">Password</label>
+            <div class="pw-wrap">
+              <input
+                type="password"
+                id="auth-password"
+                class="spark-input"
+                style="padding-right: 54px;"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" class="pw-toggle-btn" id="pw-toggle-btn" onclick="togglePasswordVisibility()">
+                Show
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <label style="display: flex; align-items: center; gap: 7px; font-size: 12px; color: #9ca8a1; cursor: pointer;">
+              <input type="checkbox" id="auth-remember" checked />
+              Keep me signed in on this device
+            </label>
+          </div>
+
+          <button type="submit" id="btn-auth-submit" class="btn-amber" style="width: 100%; padding: 12px; font-size: 13.5px;">
+            🔒 Sign In to Time Logger
+          </button>
+        </form>
+
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #1e2e25; text-align: center;">
+          <a href="./index.html" style="font-size: 12px; color: #9ca8a1; text-decoration: none;">
+            ← View Read-Only Master Public Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Desktop-only preview switcher so studio monitors can toggle Android Frame vs Full Desktop -->
-    <div class="desktop-preview-bar no-print">
+    <div class="desktop-preview-bar no-print" id="desktop-preview-bar" style="display: none;">
       <div class="vp-switcher">
         <button type="button" class="vp-btn" id="vp-mobile-btn" onclick="setViewportMode('mobile')">
           🤖 Android Phone View
@@ -320,12 +438,15 @@
           🖥️ Desktop Studio View
         </button>
       </div>
-      <a href="./index.html" class="btn-outline" style="text-decoration: none;">
-        📊 Open Master Public Dashboard →
-      </a>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <a href="./index.html" class="btn-outline" style="text-decoration: none;">
+          📊 Open Master Public Dashboard →
+        </a>
+        <button type="button" class="btn-outline" onclick="signOutLogger()">🔒 Sign Out</button>
+      </div>
     </div>
 
-    <div class="dashboard-shell" id="jack-shell">
+    <div class="dashboard-shell" id="jack-shell" style="display: none;">
       <div class="android-statusbar">
         <span id="android-clock">5:25 PM</span>
         <span class="android-camera-hole" title="Android Front Camera"></span>
@@ -359,6 +480,14 @@
           <a href="./index.html" class="btn-outline" style="text-decoration: none; font-size: 11.5px; padding: 7px 11px;">
             📊 Master Dashboard
           </a>
+          <button
+            type="button"
+            class="btn-outline"
+            style="font-size: 11.5px; padding: 7px 11px;"
+            onclick="signOutLogger()"
+          >
+            🔒 Sign Out
+          </button>
         </div>
       </header>
 
