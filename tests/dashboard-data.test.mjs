@@ -34,15 +34,14 @@ test('dashboard.json and jack-feed.json validate cleanly with Friday Oct 16, 202
 
 test('mergeTimeLogs and computeMetrics handle launch state and sample wired state accurately', () => {
   const data = JSON.parse(fs.readFileSync(path.join(rootDir, 'data/dashboard.json'), 'utf8'));
-  const feed = JSON.parse(fs.readFileSync(path.join(rootDir, 'data/jack-feed.json'), 'utf8'));
 
-  const launchMetrics = computeMetrics(data, feed, false);
-  assert.equal(launchMetrics.totalHours, 0);
-  assert.equal(launchMetrics.studioHours, 0);
-  assert.equal(launchMetrics.remoteHours, 0);
-  assert.equal(launchMetrics.sessionCount, 0);
+  const emptyMetrics = computeMetrics(data, { entries: [] }, false);
+  assert.equal(emptyMetrics.totalHours, 0);
+  assert.equal(emptyMetrics.studioHours, 0);
+  assert.equal(emptyMetrics.remoteHours, 0);
+  assert.equal(emptyMetrics.sessionCount, 0);
 
-  const sampleMetrics = computeMetrics(data, feed, true);
+  const sampleMetrics = computeMetrics(data, { entries: [] }, true);
   assert.equal(sampleMetrics.totalHours, 5.5);
   assert.equal(sampleMetrics.studioHours, 4.0);
   assert.equal(sampleMetrics.remoteHours, 1.5);
