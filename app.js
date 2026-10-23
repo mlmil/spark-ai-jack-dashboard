@@ -148,7 +148,12 @@
         const barWidth = pct === 0 ? 6 : pct;
         const badgeColors = ['spark-badge-purple', 'spark-badge-gold', 'spark-badge-emerald', 'spark-badge-sky'];
         const badgeClass = badgeColors[idx % badgeColors.length];
-        const headerRightBadge = pct > 0 ? `${pct}% Complete` : (proj.status || 'Upcoming');
+        const headerRightBadge = pct === 100
+          ? '⭐ 100% Complete 🎈'
+          : (pct > 0 ? `${pct}% Complete` : (proj.status || 'Upcoming'));
+        const endEmojiHtml = pct === 100
+          ? `<span class="progress-bar-end-emoji" title="Project Completed!">⭐🎈</span>`
+          : '';
 
         const milestonesHtml = milestones
           .map((ms, mIdx) => {
@@ -179,8 +184,11 @@
               <span class="spark-badge-emerald">${escapeHtml(headerRightBadge)}</span>
             </div>
             <p style="font-size:12.5px;color:#9ca8a1;margin:0 0 8px 0;">${escapeHtml(proj.description)}</p>
-            <div class="progress-bar-track">
-              <div class="progress-bar-fill" style="width: ${barWidth}%;"></div>
+            <div class="progress-bar-row">
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" style="width: ${barWidth}%;"></div>
+              </div>
+              ${endEmojiHtml}
             </div>
             <ul class="milestone-list">${milestonesHtml}</ul>
           </section>

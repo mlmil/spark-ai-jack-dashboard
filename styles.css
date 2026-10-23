@@ -372,12 +372,26 @@ body {
   color: var(--text-muted);
 }
 
+.progress-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 14px 0;
+}
+
 .progress-bar-track {
+  flex: 1;
   height: 8px;
   background: #1a2620;
   border-radius: 999px;
   overflow: hidden;
-  margin: 10px 0 14px 0;
+  margin: 0;
+}
+
+.progress-bar-end-emoji {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .progress-bar-fill {
