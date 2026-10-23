@@ -92,56 +92,9 @@
 
       <!-- 2-COLUMN MAIN CONTENT GRID -->
       <div class="main-grid">
-        <!-- LEFT COLUMN: ACTIVE PROJECTS + TIMESHEET LOG -->
+        <!-- LEFT COLUMN: ACTIVE PROJECTS -->
         <div class="left-col">
           <div id="projects-container"></div>
-
-          <section class="panel" style="margin-bottom: 0;">
-            <div class="panel-header">
-              <div>
-                <h2 class="panel-title">Master Time &amp; Location Log (Voice → DeepSeek Parsed)</h2>
-                <p class="panel-caption">
-                  Tracks whether Jack worked in-person at <strong>🏢 Studio 1385</strong> or <strong>🏠 Remote / Home</strong>, plus supervisor sign-off status.
-                </p>
-              </div>
-              <div class="filter-pills no-print" id="location-filter-pills">
-                <button type="button" class="filter-pill active" data-filter="all" onclick="window.setLocationFilter('all')">
-                  All (0)
-                </button>
-                <button type="button" class="filter-pill" data-filter="Studio 1385" onclick="window.setLocationFilter('Studio 1385')">
-                  🏢 Studio 1385 (0)
-                </button>
-                <button type="button" class="filter-pill" data-filter="Remote / Home" onclick="window.setLocationFilter('Remote / Home')">
-                  🏠 Remote / Home (0)
-                </button>
-              </div>
-            </div>
-
-            <div id="timesheet-table-wrapper">
-              <table class="timesheet-table">
-                <thead>
-                  <tr>
-                    <th>Date &amp; Input</th>
-                    <th>Location</th>
-                    <th>Hours</th>
-                    <th>DeepSeek Parsed Summary</th>
-                    <th>Verification Status</th>
-                  </tr>
-                </thead>
-                <tbody id="timesheet-body"></tbody>
-              </table>
-            </div>
-
-            <div id="timesheet-empty-state" class="empty-state-box" style="display: none;">
-              <p class="empty-state-title">First Session Scheduled: Friday, October 16, 2026 (🏢 Studio 1385)</p>
-              <p class="empty-state-sub">
-                Spoken updates dictated from Jack's phone or workstation and parsed by <strong>DeepSeek API</strong> (<code>data/jack-feed.json</code>) appear here automatically as <em>⏳ Logged by Jack</em> and upgrade to <em>✓ Verified • M. Miller</em> upon supervisor sign-off.
-              </p>
-              <button type="button" class="btn-outline" style="margin-top: 10px;" onclick="window.setDashboardMode('sample')">
-                👀 Preview How Logged Voice Sessions Look
-              </button>
-            </div>
-          </section>
         </div>
 
         <!-- RIGHT COLUMN: VOICE -> DEEPSEEK PIPELINE, SKILLS, SUPERVISOR NOTES -->
@@ -182,6 +135,54 @@
           </section>
         </aside>
       </div>
+
+      <!-- FULL-WIDTH MASTER TIME & LOCATION LOG -->
+      <section class="panel" style="margin-top: 18px; margin-bottom: 0; position: relative; z-index: 1;">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Master Time &amp; Location Log</h2>
+            <p class="panel-caption">
+              Tracks whether Jack worked in-person at <strong>🏢 Studio 1385</strong> or <strong>🏠 Remote / Off-Site</strong>, category bucket, work summary, and supervisor sign-off status.
+            </p>
+          </div>
+          <div class="filter-pills no-print" id="location-filter-pills">
+            <button type="button" class="filter-pill active" data-filter="all" onclick="window.setLocationFilter('all')">
+              All (0)
+            </button>
+            <button type="button" class="filter-pill" data-filter="Studio 1385" onclick="window.setLocationFilter('Studio 1385')">
+              🏢 Studio 1385 (0)
+            </button>
+            <button type="button" class="filter-pill" data-filter="Remote / Home" onclick="window.setLocationFilter('Remote / Home')">
+              🏠 Remote / Home (0)
+            </button>
+          </div>
+        </div>
+
+        <div id="timesheet-table-wrapper" style="overflow-x: auto;">
+          <table class="timesheet-table">
+            <thead>
+              <tr>
+                <th>Date &amp; Input</th>
+                <th>Location</th>
+                <th>Hours</th>
+                <th>Project, Category &amp; Work Summary</th>
+                <th>Verification Status</th>
+              </tr>
+            </thead>
+            <tbody id="timesheet-body"></tbody>
+          </table>
+        </div>
+
+        <div id="timesheet-empty-state" class="empty-state-box" style="display: none;">
+          <p class="empty-state-title">First Session Scheduled: Friday, October 16, 2026 (🏢 Studio 1385)</p>
+          <p class="empty-state-sub">
+            Spoken updates dictated from Jack's phone or workstation and parsed by <strong>DeepSeek API</strong> (<code>data/jack-feed.json</code>) appear here automatically as <em>⏳ Logged by Jack</em> and upgrade to <em>✓ Verified • M. Miller</em> upon supervisor sign-off.
+          </p>
+          <button type="button" class="btn-outline" style="margin-top: 10px;" onclick="window.setDashboardMode('sample')">
+            👀 Preview How Logged Voice Sessions Look
+          </button>
+        </div>
+      </section>
     </main>
 
     <!-- OFFICIAL PRINTABLE REPORT SHEET (Shown automatically on Print / Save PDF) -->
