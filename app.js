@@ -142,7 +142,9 @@
         const doneCount = milestones.filter((ms) =>
           isSample ? Boolean(ms.sampleCompleted ?? ms.completed) : Boolean(ms.completed)
         ).length;
-        const pct = milestones.length > 0 ? Math.round((doneCount / milestones.length) * 100) : 0;
+        const pct = !isSample && typeof proj.progressPct === 'number'
+          ? proj.progressPct
+          : (milestones.length > 0 ? Math.round((doneCount / milestones.length) * 100) : 0);
         const barWidth = pct === 0 ? 6 : pct;
         const badgeColors = ['spark-badge-purple', 'spark-badge-gold', 'spark-badge-emerald', 'spark-badge-sky'];
         const badgeClass = badgeColors[idx % badgeColors.length];
