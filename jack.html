@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090d0b" />
+    <title>Jack — Personal Time Logger &amp; DeepSeek Assistant | Spark AI</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .desktop-preview-bar {
+        max-width: 1180px;
+        margin: 14px auto 0 auto;
+        padding: 0 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .vp-switcher {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .vp-btn {
+        background: #111814;
+        color: #9ca8a1;
+        border: 1px solid #1e2e25;
+        padding: 7px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .vp-btn.active {
+        background: rgba(226, 186, 100, 0.16);
+        color: #e2ba64;
+        border-color: #e2ba64;
+      }
+
+      /* Simulated Android Frame when toggled on a desktop screen */
+      .dashboard-shell.android-sim-frame {
+        max-width: 412px;
+        margin: 16px auto 32px auto;
+        padding: 10px 14px 18px;
+        border: 6px solid #1a221e;
+        border-radius: 26px;
+        background: #090d0b;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85);
+      }
+      .android-statusbar {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        font-weight: 600;
+        color: #9ca8a1;
+        padding: 2px 4px 10px 4px;
+        margin-bottom: 6px;
+        border-bottom: 1px solid rgba(30, 46, 37, 0.6);
+      }
+      .dashboard-shell.android-sim-frame .android-statusbar {
+        display: flex;
+      }
+      .android-camera-hole {
+        width: 12px;
+        height: 12px;
+        background: #040605;
+        border: 2px solid #222d27;
+        border-radius: 50%;
+      }
+      .android-nav-pill {
+        display: none;
+        width: 108px;
+        height: 4px;
+        background: #4b5a52;
+        border-radius: 999px;
+        margin: 14px auto 0 auto;
+      }
+      .dashboard-shell.android-sim-frame .android-nav-pill {
+        display: block;
+      }
+
+      /* Mobile App Thumb Tabs */
+      .mobile-app-tabs {
+        display: none;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        background: #111814;
+        border: 1px solid #1e2e25;
+        padding: 5px;
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+      .dashboard-shell.android-sim-frame .mobile-app-tabs {
+        display: grid;
+      }
+      .m-tab {
+        background: transparent;
+        color: #9ca8a1;
+        border: none;
+        padding: 9px 4px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .m-tab.active {
+        background: rgba(226, 186, 100, 0.18);
+        color: #e2ba64;
+      }
+
+      .dashboard-shell.android-sim-frame .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .dashboard-shell.android-sim-frame .kpi-card {
+        padding: 10px;
+      }
+      .dashboard-shell.android-sim-frame .kpi-value {
+        font-size: 18px;
+      }
+      .dashboard-shell.android-sim-frame .main-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .dashboard-shell.android-sim-frame .spark-title {
+        font-size: 17px;
+      }
+      .dashboard-shell.android-sim-frame .spark-plug-crest {
+        width: 48px;
+        height: 62px;
+      }
+      .dashboard-shell.android-sim-frame .spark-plug-crest img {
+        height: 50px;
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 13px;
+      }
+      .form-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #9ca8a1;
+        margin-bottom: 5px;
+      }
+      .spark-input,
+      .spark-select,
+      .spark-textarea {
+        width: 100%;
+        box-sizing: border-box;
+        background: #090d0b;
+        border: 1px solid #1e2e25;
+        color: #f3f5f4;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 13.5px;
+        font-family: inherit;
+        outline: none;
+      }
+      .spark-input:focus,
+      .spark-select:focus,
+      .spark-textarea:focus {
+        border-color: #e2ba64;
+      }
+      .loc-selector-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .dashboard-shell.android-sim-frame .loc-selector-grid {
+        grid-template-columns: 1fr;
+      }
+      .loc-btn {
+        background: #090d0b;
+        border: 1px solid #1e2e25;
+        border-radius: 8px;
+        padding: 10px 12px;
+        color: #9ca8a1;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .loc-btn.active-studio {
+        background: rgba(226, 186, 100, 0.14);
+        border-color: #e2ba64;
+        color: #e2ba64;
+      }
+      .loc-btn.active-remote {
+        background: rgba(56, 189, 248, 0.14);
+        border-color: #38bdf8;
+        color: #38bdf8;
+      }
+      .quick-chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .chip {
+        background: #0d1511;
+        border: 1px solid #1e2e25;
+        color: #9ca8a1;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .chip:hover,
+      .chip.active {
+        border-color: #e2ba64;
+        color: #e2ba64;
+        background: rgba(226, 186, 100, 0.12);
+      }
+      .chat-box {
+        background: #090d0b;
+        border: 1px solid #1e2e25;
+        border-radius: 10px;
+        padding: 12px;
+        height: 230px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        margin-bottom: 10px;
+      }
+      .chat-msg {
+        padding: 9px 11px;
+        border-radius: 9px;
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+      .chat-msg.assistant {
+        background: #0f1713;
+        border-left: 3px solid #c084fc;
+        color: #d1dbd5;
+      }
+      .chat-msg.user {
+        background: rgba(226, 186, 100, 0.14);
+        border: 1px solid rgba(226, 186, 100, 0.35);
+        color: #f3f5f4;
+        align-self: flex-end;
+        max-width: 88%;
+      }
+      .toast-banner {
+        display: none;
+        background: rgba(52, 211, 153, 0.14);
+        border: 1px solid #34d399;
+        color: #34d399;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 12px;
+      }
+
+      /* Native Android / Mobile Phone Viewport (<= 768px) */
+      @media (max-width: 768px) {
+        .desktop-preview-bar {
+          display: none !important;
+        }
+        .dashboard-shell,
+        .dashboard-shell.android-sim-frame {
+          max-width: 100% !important;
+          margin: 0 !important;
+          padding: 14px 12px 24px !important;
+          border: none !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+        .android-statusbar,
+        .android-nav-pill {
+          display: none !important;
+        }
+        .mobile-app-tabs {
+          display: grid !important;
+        }
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 8px !important;
+        }
+        .kpi-card {
+          padding: 10px !important;
+        }
+        .kpi-value {
+          font-size: 18px !important;
+        }
+        .main-grid {
+          grid-template-columns: 1fr !important;
+          gap: 12px !important;
+        }
+        .loc-selector-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .spark-title {
+          font-size: 17px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Desktop-only preview switcher so studio monitors can toggle Android Frame vs Full Desktop -->
+    <div class="desktop-preview-bar no-print">
+      <div class="vp-switcher">
+        <button type="button" class="vp-btn" id="vp-mobile-btn" onclick="setViewportMode('mobile')">
+          🤖 Android Phone View
+        </button>
+        <button type="button" class="vp-btn active" id="vp-desktop-btn" onclick="setViewportMode('desktop')">
+          🖥️ Desktop Studio View
+        </button>
+      </div>
+      <a href="./index.html" class="btn-outline" style="text-decoration: none;">
+        📊 Open Master Public Dashboard →
+      </a>
+    </div>
+
+    <div class="dashboard-shell" id="jack-shell">
+      <div class="android-statusbar">
+        <span id="android-clock">5:25 PM</span>
+        <span class="android-camera-hole" title="Android Front Camera"></span>
+        <span>5G • 🔋 94%</span>
+      </div>
+
+      <img src="./assets/spark-ai-plug.png" alt="" class="spark-watermark-bg no-print" />
+
+      <!-- TOP HEADER -->
+      <header class="spark-topbar">
+        <div class="spark-header-left">
+          <div class="spark-plug-crest" title="SPARK.AI • Studio 1385">
+            <img src="./assets/spark-ai-plug.png" alt="SPARK.AI Spark Plug Emblem" />
+          </div>
+          <div>
+            <div class="spark-brand-row">
+              <span class="spark-badge-gold">SPARK AI • JACK</span>
+              <span class="spark-badge-emerald">🔗 MASTER SYNCED</span>
+            </div>
+            <h1 class="spark-title">Jack — Personal Time Logger</h1>
+            <p class="spark-subtitle">Studio 1385 &amp; Remote • Powered by DeepSeek</p>
+            <div
+              id="last-commit-top"
+              style="color: #34d399; font-size: 11.5px; font-weight: 600; margin-top: 3px; white-space: nowrap;"
+            >
+              Last Commit: Ready for first session
+            </div>
+          </div>
+        </div>
+        <div class="spark-actions no-print">
+          <a href="./index.html" class="btn-outline" style="text-decoration: none; font-size: 11.5px; padding: 7px 11px;">
+            📊 Master Dashboard
+          </a>
+        </div>
+      </header>
+
+      <!-- 4 KPI SUMMARY CARDS -->
+      <section class="kpi-grid" aria-label="Personal Summary Metrics">
+        <div class="kpi-card">
+          <div class="kpi-label">My Hours</div>
+          <div class="kpi-value" id="jack-total-hrs">0.0 <span>hrs</span></div>
+          <div class="kpi-sub">
+            <span class="loc-pill-mini loc-studio" id="jack-studio-hrs">🏢 0.0h</span>
+            <span class="loc-pill-mini loc-home" id="jack-remote-hrs">📍 0.0h</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Project</div>
+          <div class="kpi-value" style="font-size: 14px; margin-top: 2px;" id="jack-current-proj">
+            Personal Time-Logger
+          </div>
+          <div class="kpi-sub">5 Project Tracks</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Last Master Commit</div>
+          <div
+            class="kpi-value"
+            id="jack-last-commit-kpi"
+            style="font-size: 13.5px; color: #34d399; margin-top: 2px; white-space: nowrap;"
+          >
+            Ready to Commit
+          </div>
+          <div class="kpi-sub">✓ Vercel + GitHub</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">DeepSeek DB</div>
+          <div class="kpi-value" id="jack-entry-count">0 <span>logs</span></div>
+          <div class="kpi-sub">🟢 Assistant Ready</div>
+        </div>
+      </section>
+
+      <!-- MOBILE THUMB TABS -->
+      <div class="mobile-app-tabs no-print">
+        <button type="button" class="m-tab active" id="mtab-log" onclick="switchMobileTab('log')">
+          ⚡ Log Time
+        </button>
+        <button type="button" class="m-tab" id="mtab-ai" onclick="switchMobileTab('ai')">
+          🤖 DeepSeek AI
+        </button>
+        <button type="button" class="m-tab" id="mtab-history" onclick="switchMobileTab('history')">
+          📋 History (0)
+        </button>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-grid">
+        <!-- LEFT COLUMN -->
+        <div id="col-left">
+          <section class="panel" id="panel-logger">
+            <div class="panel-header">
+              <div>
+                <span class="spark-badge-gold" style="font-size: 9.5px; padding: 2px 7px;">
+                  LOG WORK SESSION (SHOWING LAST ENTRY)
+                </span>
+                <h2 class="panel-title" style="margin-top: 5px;">Log Time, Project &amp; Location</h2>
+              </div>
+              <button
+                type="button"
+                class="btn-outline"
+                onclick="clearLoggerForm()"
+                title="Clear form to start a fresh session"
+              >
+                ↺ Clear Form
+              </button>
+            </div>
+
+            <!-- 1. PROJECT SELECTOR -->
+            <div class="form-group">
+              <label class="form-label" for="input-project">1. Project Worked On</label>
+              <select id="input-project" class="spark-select" onchange="onProjectChange()">
+                <option value="General Spark AI / R&D">General Spark AI / R&amp;D</option>
+                <option value="Personal Time-Logger Dashboard" selected>
+                  Internal #1 — Personal Time-Logger
+                </option>
+                <option value="YCE Inc. — LLM Mac Mini Deployment & Training">
+                  YCE Inc. — LLM Mac Mini &amp; Training
+                </option>
+                <option value="Right at Home Healthcare — Phase 2 Admin AI & Marketing">
+                  Right at Home — Phase 2 Admin &amp; Marketing
+                </option>
+                <option value="Precision Automotive — AI-Powered Website Build">
+                  Precision Automotive — AI Website
+                </option>
+              </select>
+            </div>
+
+            <!-- 2. CATEGORY BUCKET SELECTOR -->
+            <div class="form-group">
+              <label class="form-label" for="input-category">2. Work Category (Bucket)</label>
+              <select id="input-category" class="spark-select">
+                <option value="General Spark AI / R&D">⚡ General Spark AI / R&amp;D</option>
+                <option value="Research & Learning">🔍 Research &amp; Learning</option>
+                <option value="Build & Development" selected>💻 Build &amp; Development</option>
+                <option value="Hardware & LLM Deployment">🖥️ Hardware &amp; LLM Deployment</option>
+                <option value="Client Training & Shadowing">🤝 Client Training &amp; Shadowing</option>
+                <option value="Admin & Planning">📋 Admin &amp; Planning</option>
+              </select>
+            </div>
+
+            <!-- 3. WORK LOCATION -->
+            <div class="form-group">
+              <label class="form-label">3. Work Location</label>
+              <div class="loc-selector-grid">
+                <button
+                  type="button"
+                  id="btn-loc-studio"
+                  class="loc-btn active-studio"
+                  onclick="selectLocation('Studio 1385')"
+                >
+                  <span>🏢 <strong>Studio 1385</strong> (In-Studio)</span>
+                  <span>✓</span>
+                </button>
+                <button
+                  type="button"
+                  id="btn-loc-remote"
+                  class="loc-btn"
+                  onclick="selectLocation('Remote / Home')"
+                >
+                  <span>📍 <strong>Other Location</strong> (Home / Cafe / Site)</span>
+                  <span></span>
+                </button>
+              </div>
+              <div id="remote-detail-box" style="display: none; margin-top: 8px;">
+                <input
+                  type="text"
+                  id="input-location-detail"
+                  class="spark-input"
+                  placeholder="e.g., Home, Coffee Shop, YCE Office"
+                  value="Home"
+                />
+                <div class="quick-chips">
+                  <span class="chip active" onclick="setLocDetail('Home', this)">🏠 Home</span>
+                  <span class="chip" onclick="setLocDetail('Coffee Shop', this)">☕ Coffee Shop</span>
+                  <span class="chip" onclick="setLocDetail('Client Office', this)">🤝 Client Site</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. HOURS & DATE -->
+            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div>
+                <label class="form-label" for="input-hours">4. Hours</label>
+                <input
+                  type="number"
+                  id="input-hours"
+                  class="spark-input"
+                  step="0.5"
+                  min="0.5"
+                  max="12"
+                  value="2.0"
+                />
+              </div>
+              <div>
+                <label class="form-label" for="input-date">Date</label>
+                <input type="date" id="input-date" class="spark-input" />
+              </div>
+            </div>
+
+            <!-- 5. WORK SUMMARY -->
+            <div class="form-group">
+              <label class="form-label" for="input-summary">5. What Did You Do?</label>
+              <textarea
+                id="input-summary"
+                class="spark-textarea"
+                rows="3"
+                placeholder="Describe what you worked on during this session..."
+              >Worked with Mike at Studio 1385 designing and building my personal time-logging dashboard.</textarea>
+            </div>
+
+            <button
+              type="button"
+              id="btn-submit-session"
+              class="btn-amber"
+              style="width: 100%; padding: 12px; font-size: 13.5px;"
+              onclick="submitSession()"
+            >
+              ⚡ Log Hours &amp; Commit to Master
+            </button>
+
+            <div id="submit-toast" class="toast-banner">
+              ✓ Saved &amp; committed to Master Dashboard! (Last entry kept in form)
+            </div>
+          </section>
+
+          <!-- RECENT SESSIONS -->
+          <section class="panel" id="panel-history" style="margin-bottom: 0;">
+            <div class="panel-header">
+              <h2 class="panel-title">My Logged Sessions</h2>
+              <span class="spark-badge-emerald" style="font-size: 9.5px;">Synced to Master</span>
+            </div>
+            <div id="history-empty" style="font-size: 12.5px; color: #9ca8a1; padding: 12px 0;">
+              No hours logged yet. Tap <strong>⚡ Log Hours &amp; Commit to Master</strong> above to record your first session!
+            </div>
+            <div id="history-table-wrap" style="display: none; overflow-x: auto;">
+              <table class="timesheet-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Loc</th>
+                    <th>Hrs</th>
+                    <th>Project, Category &amp; Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="jack-log-tbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN: DEEPSEEK ASSISTANT -->
+        <div id="col-right">
+          <section class="panel" id="panel-ai" style="margin-bottom: 0;">
+            <div class="panel-header">
+              <div>
+                <span class="spark-badge-purple" style="font-size: 9.5px;">DEEPSEEK API COPILOT</span>
+                <h2 class="panel-title" style="margin-top: 5px;">DeepSeek Internship Assistant</h2>
+              </div>
+              <span id="deepseek-status-pill" style="font-size: 11px; color: #34d399;">● Online</span>
+            </div>
+
+            <div class="chat-box" id="chat-box">
+              <div class="chat-msg assistant">
+                <strong style="color: #c084fc;">DeepSeek Assistant:</strong> Hey Jack! You can ask me about your logged hours, category buckets, or next steps on <strong>YCE Inc.</strong>, <strong>Right at Home Healthcare</strong>, or <strong>Precision Automotive</strong>.
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+              <input
+                type="text"
+                id="chat-input"
+                class="spark-input"
+                placeholder="Ask DeepSeek about your hours or projects..."
+                onkeydown="if(event.key==='Enter'){sendChatMessage();}"
+              />
+              <button type="button" class="btn-amber" onclick="sendChatMessage()">Send</button>
+            </div>
+
+            <div class="quick-chips">
+              <span class="chip" onclick="sendQuickPrompt('Summarize my logged hours and locations')">
+                📊 "Summarize my hours"
+              </span>
+              <span class="chip" onclick="sendQuickPrompt('What is our next step for YCE Inc.?')">
+                🖥️ "What's next for YCE Inc.?"
+              </span>
+              <span class="chip" onclick="sendQuickPrompt('What are my active Spark AI projects?')">
+                ⚡ "List active projects"
+              </span>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <div class="android-nav-pill" title="Android Gesture Navigation Bar"></div>
+    </div>
+
+    <script src="./data/dashboard-fallback.js"></script>
+    <script src="./jack.js"></script>
+  </body>
+</html>

@@ -119,3 +119,17 @@ test('JACK_PROJECT_1_GUIDE.md, .ai workspace files, and README document the Voic
   assert.match(guide, /Studio 1385/);
   assert.match(guide, /Remote \/ Home/);
 });
+
+test('jack.html, jack.js, and Vercel API endpoints include Android mobile frame, category buckets, single Clear Form button, and Last Commit stamp', () => {
+  const jackHtml = fs.readFileSync(path.join(rootDir, 'jack.html'), 'utf8');
+  const jackJs = fs.readFileSync(path.join(rootDir, 'jack.js'), 'utf8');
+  const logApi = fs.readFileSync(path.join(rootDir, 'api/log-session.js'), 'utf8');
+
+  assert.match(jackHtml, /General Spark AI \/ R&amp;D/);
+  assert.match(jackHtml, /Research &amp; Learning/);
+  assert.match(jackHtml, /id="last-commit-top"/);
+  assert.match(jackHtml, /clearLoggerForm\(\)/);
+  assert.match(jackJs, /LAST_ENTRY_STORAGE_KEY/);
+  assert.match(logApi, /api\.github\.com\/repos/);
+});
+

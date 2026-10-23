@@ -1,4 +1,7 @@
 .DS_Store
 .superpowers/
+.vercel/
+.env
+.env.*
 node_modules/
 WORKLOG_*.md

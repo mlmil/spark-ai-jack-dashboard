@@ -102,12 +102,18 @@
         : 'Viewing Live Portal State — Internship starts Friday, Oct 16, 2026 at Studio 1385';
     }
 
-    // Feed status badge
+    // Feed status badge & Last Commit stamp
     const feedBadge = document.getElementById('feed-status-badge');
     if (feedBadge) {
       feedBadge.textContent = isSample || m.sessionCount > 0
         ? '🎙️ Voice → DeepSeek API Feed: Connected'
         : '🎙️ Voice → DeepSeek API: Ready for Friday';
+    }
+    const masterLastCommit = document.getElementById('master-last-commit');
+    if (masterLastCommit) {
+      masterLastCommit.textContent = state.feed?.lastCommitDisplay
+        ? `Last Commit from Jack's Logger: ${state.feed.lastCommitDisplay}`
+        : '';
     }
 
     // KPI Cards
@@ -207,13 +213,19 @@
       tbody.innerHTML = filteredLogs
         .map((row) => {
           const isStudio = row.location === 'Studio 1385';
+          const remoteLabel = row.locationDetail && row.locationDetail !== 'Studio 1385'
+            ? row.locationDetail
+            : 'Remote / Home';
           const locBadge = isStudio
             ? `<span class="spark-badge-gold" style="font-size:10.5px;">🏢 Studio 1385</span>`
-            : `<span class="spark-badge-sky" style="font-size:10.5px;">🏠 Remote / Home</span>`;
+            : `<span class="spark-badge-sky" style="font-size:10.5px;">📍 ${escapeHtml(remoteLabel)}</span>`;
           const hoursColor = isStudio ? '#e2ba64' : '#38bdf8';
           const verifyBadge = row.verificationStatus === 'verified'
             ? `<span class="spark-badge-emerald" style="font-size:10px;">✓ Verified • M. Miller</span>`
             : `<span class="spark-badge-gold" style="font-size:10px;">⏳ Logged by Jack</span>`;
+          const catBadge = row.category
+            ? `<span class="spark-badge-emerald" style="font-size:9.5px;margin-left:6px;">${escapeHtml(row.category)}</span>`
+            : '';
           const transcriptHtml = row.rawTranscript
             ? `<div class="spoken-quote">Spoken: "${escapeHtml(row.rawTranscript)}"</div>`
             : '';
@@ -222,12 +234,12 @@
             <tr>
               <td>
                 <strong>${escapeHtml(row.displayDate || row.date)}</strong><br />
-                <span class="spark-badge-purple" style="margin-top:4px;">🎙️ ${escapeHtml(row.inputMethod || 'Voice → DeepSeek')}</span>
+                <span class="spark-badge-purple" style="margin-top:4px;">⚡ ${escapeHtml(row.inputMethod || 'Jack Personal Logger')}</span>
               </td>
               <td>${locBadge}</td>
               <td><strong style="color:${hoursColor};">${Number(row.hours).toFixed(1)} hrs</strong></td>
               <td>
-                <div><strong>${escapeHtml(row.project)}</strong></div>
+                <div><strong>${escapeHtml(row.project)}</strong>${catBadge}</div>
                 <div>${escapeHtml(row.summary)}</div>
                 ${transcriptHtml}
               </td>
@@ -365,12 +377,23 @@
 
   async function init() {
     try {
-      const [dashRes, feedRes] = await Promise.all([
-        fetch('./data/dashboard.json', { cache: 'no-store' }),
-        fetch('./data/jack-feed.json', { cache: 'no-store' })
-      ]);
+      const dashRes = await fetch('./data/dashboard.json', { cache: 'no-store' });
       if (dashRes.ok) state.data = await dashRes.json();
-      if (feedRes.ok) state.feed = await feedRes.json();
+
+      let feedLoaded = false;
+      try {
+        const apiFeedRes = await fetch('/api/feed', { cache: 'no-store' });
+        if (apiFeedRes.ok) {
+          state.feed = await apiFeedRes.json();
+          feedLoaded = true;
+        }
+      } catch (_e) {
+        // Fallback to static json below
+      }
+      if (!feedLoaded) {
+        const feedRes = await fetch('./data/jack-feed.json', { cache: 'no-store' });
+        if (feedRes.ok) state.feed = await feedRes.json();
+      }
 
       // If a remoteFeedUrl is configured on Jack's separate dashboard, fetch and merge it too
       if (state.data?.feedConfig?.remoteFeedUrl) {
