@@ -5,7 +5,13 @@ const GITHUB_REPO = process.env.GITHUB_REPO || 'mlmil/spark-ai-jack-dashboard';
 const GITHUB_FILE_PATH = 'data/jack-feed.json';
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });

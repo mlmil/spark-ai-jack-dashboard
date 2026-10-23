@@ -375,42 +375,46 @@
     URL.revokeObjectURL(url);
   };
 
+  async function refreshLiveFeed() {
+    const feedUrls = [
+      '/api/feed',
+      'https://spark-ai-jack-dashboard.vercel.app/api/feed',
+      `./data/jack-feed.json?t=${Date.now()}`
+    ];
+
+    for (const url of feedUrls) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json && Array.isArray(json.entries)) {
+            state.feed = json;
+            renderDashboard();
+            return;
+          }
+        }
+      } catch (_e) {
+        // Try next feed URL
+      }
+    }
+  }
+
   async function init() {
     try {
       const dashRes = await fetch('./data/dashboard.json', { cache: 'no-store' });
       if (dashRes.ok) state.data = await dashRes.json();
-
-      let feedLoaded = false;
-      try {
-        const apiFeedRes = await fetch('/api/feed', { cache: 'no-store' });
-        if (apiFeedRes.ok) {
-          state.feed = await apiFeedRes.json();
-          feedLoaded = true;
-        }
-      } catch (_e) {
-        // Fallback to static json below
-      }
-      if (!feedLoaded) {
-        const feedRes = await fetch('./data/jack-feed.json', { cache: 'no-store' });
-        if (feedRes.ok) state.feed = await feedRes.json();
-      }
-
-      // If a remoteFeedUrl is configured on Jack's separate dashboard, fetch and merge it too
-      if (state.data?.feedConfig?.remoteFeedUrl) {
-        try {
-          const remoteRes = await fetch(state.data.feedConfig.remoteFeedUrl, { cache: 'no-store' });
-          if (remoteRes.ok) {
-            const remoteFeed = await remoteRes.json();
-            state.feed.entries = [...(remoteFeed.entries || []), ...(state.feed.entries || [])];
-          }
-        } catch (_remoteErr) {
-          // Keep local feed entries if remote feed is offline
-        }
-      }
+      await refreshLiveFeed();
     } catch (_err) {
       // Offline / file:// protocol fallback already loaded via window.SPARK_INTERN_DATA
     }
     renderDashboard();
+
+    // Auto-refresh live feed every 8 seconds and whenever tab gains focus
+    setInterval(refreshLiveFeed, 8000);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) refreshLiveFeed();
+    });
+    window.addEventListener('focus', refreshLiveFeed);
   }
 
   init();

@@ -209,6 +209,25 @@ window.SPARK_INTERN_DATA = {
 };
 window.SPARK_JACK_FEED = {
   "feedName": "Jack's Voice → DeepSeek Logger Feed",
-  "lastSynced": "2026-10-13",
-  "entries": []
+  "lastSynced": "2026-10-22",
+  "entries": [
+    {
+      "id": "jack-log-1792716691617",
+      "date": "2026-10-22",
+      "displayDate": "Thu, Oct 22, 2026",
+      "location": "Studio 1385",
+      "locationDetail": "Studio 1385",
+      "hours": 4,
+      "project": "Personal Time-Logger Dashboard",
+      "category": "Build & Development",
+      "summary": "Worked with Mike at Studio 1385 designing and building my personal time-logging dashboard.",
+      "inputMethod": "Jack Personal Logger",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack",
+      "committedAt": "2026-10-23T00:51:31.341Z",
+      "commitDisplay": "Oct 22, 2026 • 5:51 PM"
+    }
+  ],
+  "lastCommitAt": "2026-10-23T00:51:31.341Z",
+  "lastCommitDisplay": "Oct 22, 2026 • 5:51 PM"
 };
