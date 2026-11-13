@@ -1,7 +1,23 @@
 {
   "feedName": "Jack's Voice → DeepSeek Logger Feed",
-  "lastSynced": "2026-11-11",
+  "lastSynced": "2026-11-12",
   "entries": [
+    {
+      "id": "jack-log-1794540540794",
+      "date": "2026-11-12",
+      "displayDate": "Thu, Nov 12, 2026",
+      "location": "Remote / Home",
+      "locationDetail": "Home",
+      "hours": 5.4,
+      "project": "General Spark AI / R&D",
+      "category": "General Spark AI / R&D",
+      "summary": "Researched more videos and written blogs on fine-tuning, LoRA, and QLoRA. Made note of sources that looked particularly relevant to those topics.",
+      "inputMethod": "Jack Personal Logger",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack",
+      "committedAt": "2026-11-13T03:29:00.141Z",
+      "commitDisplay": "Nov 12, 2026 • 7:29 PM"
+    },
     {
       "id": "jack-log-1794451610338",
       "date": "2026-11-11",
@@ -67,6 +83,6 @@
       "commitDisplay": "Oct 22, 2026 • 5:51 PM"
     }
   ],
-  "lastCommitAt": "2026-11-12T02:46:49.365Z",
-  "lastCommitDisplay": "Nov 11, 2026 • 6:46 PM"
+  "lastCommitAt": "2026-11-13T03:29:00.141Z",
+  "lastCommitDisplay": "Nov 12, 2026 • 7:29 PM"
 }
