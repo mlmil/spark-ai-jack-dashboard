@@ -1,7 +1,23 @@
 {
   "feedName": "Jack's Voice → DeepSeek Logger Feed",
-  "lastSynced": "2026-11-12",
+  "lastSynced": "2026-11-16",
   "entries": [
+    {
+      "id": "jack-log-1794896009048",
+      "date": "2026-11-16",
+      "displayDate": "Mon, Nov 16, 2026",
+      "location": "Remote / Home",
+      "locationDetail": "Home",
+      "hours": 4.7,
+      "project": "General Spark AI / R&D",
+      "category": "General Spark AI / R&D",
+      "summary": "Found more fine-tuning sources focusing on quantization and hyperparameters. Found some sources focusing on invoicing, but so far they either don't focus on Qwen or continue onwards from concepts in a previous tutorial video.",
+      "inputMethod": "Jack Personal Logger",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack",
+      "committedAt": "2026-11-17T06:13:28.213Z",
+      "commitDisplay": "Nov 16, 2026 • 10:13 PM"
+    },
     {
       "id": "jack-log-1794540540794",
       "date": "2026-11-12",
@@ -83,6 +99,6 @@
       "commitDisplay": "Oct 22, 2026 • 5:51 PM"
     }
   ],
-  "lastCommitAt": "2026-11-13T03:29:00.141Z",
-  "lastCommitDisplay": "Nov 12, 2026 • 7:29 PM"
+  "lastCommitAt": "2026-11-17T06:13:28.213Z",
+  "lastCommitDisplay": "Nov 16, 2026 • 10:13 PM"
 }
