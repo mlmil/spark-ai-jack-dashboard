@@ -1,7 +1,23 @@
 {
   "feedName": "Jack's Voice → DeepSeek Logger Feed",
-  "lastSynced": "2026-11-16",
+  "lastSynced": "2026-11-17",
   "entries": [
+    {
+      "id": "jack-log-1795074052728",
+      "date": "2026-11-17",
+      "displayDate": "Tue, Nov 17, 2026",
+      "location": "Remote / Home",
+      "locationDetail": "Home",
+      "hours": 3.9,
+      "project": "General Spark AI / R&D",
+      "category": "General Spark AI / R&D",
+      "summary": "Did research on Model Distillation and Model Quantization, looking into what those terms mean and how they can be useful when training an AI model.",
+      "inputMethod": "Jack Personal Logger",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack",
+      "committedAt": "2026-11-19T07:40:52.067Z",
+      "commitDisplay": "Nov 18, 2026 • 11:40 PM"
+    },
     {
       "id": "jack-log-1794896009048",
       "date": "2026-11-16",
@@ -99,6 +115,6 @@
       "commitDisplay": "Oct 22, 2026 • 5:51 PM"
     }
   ],
-  "lastCommitAt": "2026-11-17T06:13:28.213Z",
-  "lastCommitDisplay": "Nov 16, 2026 • 10:13 PM"
+  "lastCommitAt": "2026-11-19T07:40:52.067Z",
+  "lastCommitDisplay": "Nov 18, 2026 • 11:40 PM"
 }
