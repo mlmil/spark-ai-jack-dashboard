@@ -1,7 +1,23 @@
 {
   "feedName": "Jack's Voice → DeepSeek Logger Feed",
-  "lastSynced": "2026-11-17",
+  "lastSynced": "2026-11-18",
   "entries": [
+    {
+      "id": "jack-log-1795074408703",
+      "date": "2026-11-18",
+      "displayDate": "Wed, Nov 18, 2026",
+      "location": "Remote / Home",
+      "locationDetail": "Home",
+      "hours": 2.8,
+      "project": "General Spark AI / R&D",
+      "category": "General Spark AI / R&D",
+      "summary": "Did some research on Retrieval-Augmented Generation (RAG) since it seems to be an important part of the actual process of an AI model retrieving a file from somewhere. Also looked into how to train a model to extract invoices and test it with a vLLM.",
+      "inputMethod": "Jack Personal Logger",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack",
+      "committedAt": "2026-11-19T07:46:47.945Z",
+      "commitDisplay": "Nov 18, 2026 • 11:46 PM"
+    },
     {
       "id": "jack-log-1795074052728",
       "date": "2026-11-17",
@@ -115,6 +131,6 @@
       "commitDisplay": "Oct 22, 2026 • 5:51 PM"
     }
   ],
-  "lastCommitAt": "2026-11-19T07:40:52.067Z",
-  "lastCommitDisplay": "Nov 18, 2026 • 11:40 PM"
+  "lastCommitAt": "2026-11-19T07:46:47.945Z",
+  "lastCommitDisplay": "Nov 18, 2026 • 11:46 PM"
 }
