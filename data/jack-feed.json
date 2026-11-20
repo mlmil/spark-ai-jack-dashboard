@@ -1,7 +1,23 @@
 {
   "feedName": "Jack's Voice → DeepSeek Logger Feed",
-  "lastSynced": "2026-11-18",
+  "lastSynced": "2026-11-19",
   "entries": [
+    {
+      "id": "jack-log-1795143358956",
+      "date": "2026-11-19",
+      "displayDate": "Thu, Nov 19, 2026",
+      "location": "Studio 1385",
+      "locationDetail": "Studio 1385",
+      "hours": 7.3,
+      "project": "YCE Inc. — LLM Mac Mini Deployment & Training",
+      "category": "Client Training & Shadowing",
+      "summary": "Went with Mike to a client's office and watched him explain some new features to the client. Worked with Mike to create a task-oriented dashboard with a Kanban board, and then created a central dashboard to connect to other dashboards.",
+      "inputMethod": "Jack Personal Logger",
+      "verificationStatus": "logged_by_jack",
+      "verifiedBy": "Logged by Jack",
+      "committedAt": "2026-11-20T02:55:58.277Z",
+      "commitDisplay": "Nov 19, 2026 • 6:55 PM"
+    },
     {
       "id": "jack-log-1795074408703",
       "date": "2026-11-18",
@@ -131,6 +147,6 @@
       "commitDisplay": "Oct 22, 2026 • 5:51 PM"
     }
   ],
-  "lastCommitAt": "2026-11-19T07:46:47.945Z",
-  "lastCommitDisplay": "Nov 18, 2026 • 11:46 PM"
+  "lastCommitAt": "2026-11-20T02:55:58.277Z",
+  "lastCommitDisplay": "Nov 19, 2026 • 6:55 PM"
 }
